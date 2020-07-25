@@ -207,15 +207,6 @@ PAYLOAD_CODE int shellcore_fpkg_patch(void)
 			goto error;
 	}
 
-	ret = proc_write_mem(ssc, text_seg_base + enable_data_mount_patch, sizeof(xor__eax_eax__inc__eax), xor__eax_eax__inc__eax, &n);
-	if (ret) 
-		goto error;
-
-	// enable fpkg for patches
-	ret = proc_write_mem(ssc, (void *)(text_seg_base + enable_fpkg_patch), 8, "\xE9\x96\x00\x00\x00\x90\x90\x90", &n);
-	if (ret)
-		goto error;
-
 	// this offset corresponds to "fake\0" string in the Shellcore's memory
 	ret = proc_write_mem(ssc, (void *)(text_seg_base + fake_free_patch), 5, "free\0", &n);
 	if (ret)
@@ -223,11 +214,6 @@ PAYLOAD_CODE int shellcore_fpkg_patch(void)
 
 	// make pkgs installer working with external hdd
 	ret = proc_write_mem(ssc, (void *)(text_seg_base + pkg_installer_patch), 1, "\0", &n);
-	if (ret)
-		goto error;
-
-	// enable support with 6.xx external hdd
-	ret = proc_write_mem(ssc, (void *)(text_seg_base + ext_hdd_patch), 1, "\xEB", &n);
 	if (ret)
 		goto error;
 
@@ -252,11 +238,6 @@ PAYLOAD_CODE int shellcore_fpkg_patch(void)
 		goto error;
 	}
 
-	 ret = proc_write_mem(ssc, (void *)(text_seg_base + save_mount_permision), 3, "\x31\xC0\xC3", &n);//0x48, 0x31, 0xC0, 0xC3
-	 if (ret)
-	 {
-		 goto error;
-	 }
 error:
 	if (entries)
 		dealloc(entries);
@@ -276,11 +257,6 @@ PAYLOAD_CODE int shellui_patch(void)
 	size_t num_entries = 0;
 
 	int ret = 0;
-
-	uint32_t ofs_to_ret_1[] = {
-		sceSblRcMgrIsAllowDebugMenuForSettings_patch,
-		sceSblRcMgrIsStoreMode_patch,
-	};
 
 	uint8_t mov__eax_1__ret[6] = { 0xB8, 0x01, 0x00, 0x00, 0x00, 0xC3 };
 
@@ -307,12 +283,6 @@ PAYLOAD_CODE int shellui_patch(void)
         goto error;
     }
 
-    // disable CreateUserForIDU
-    ret = proc_write_mem(ssui, (void *)(executable_base  + CreateUserForIDU_patch), 4, "\x48\x31\xC0\xC3", &n);
-    if (ret) {
-        goto error;
-    }
-
     for (int i = 0; i < num_entries; i++) {
         if (!memcmp(entries[i].name, "app.exe.sprx", 12) && (entries[i].prot >= (PROT_READ | PROT_EXEC))) {
             app_base  = (uint8_t *)entries[i].start;
@@ -325,9 +295,6 @@ PAYLOAD_CODE int shellui_patch(void)
         goto error;
     }
 
-    // enable remote play menu - credits to Aida
-    ret = proc_write_mem(ssui, (void *)(app_base  + remote_play_menu_patch), 5, "\xE9\x82\x02\x00\x00", &n);
-
     for (int i = 0; i < num_entries; i++) {
         if (!memcmp(entries[i].name, "libkernel_sys.sprx", 18) && (entries[i].prot >= (PROT_READ | PROT_EXEC))) {
             libkernel_sys_base = (uint8_t *)entries[i].start;
@@ -338,13 +305,6 @@ PAYLOAD_CODE int shellui_patch(void)
     if (!libkernel_sys_base) {
         ret = -1;
         goto error;
-    }
-
-    // enable debug settings menu
-    for (int i = 0; i < COUNT_OF(ofs_to_ret_1); i++) {
-        ret = proc_write_mem(ssui, (void *)(libkernel_sys_base + ofs_to_ret_1[i]), sizeof(mov__eax_1__ret), mov__eax_1__ret, &n);
-        if (ret)
-            goto error;
     }
 
 error:
@@ -388,16 +348,6 @@ PAYLOAD_CODE int remoteplay_patch() {
         goto error;
     }
 
-    // patch SceRemotePlay process
-    ret = proc_write_mem(srp, (void *)(executable_base + SceRemotePlay_patch1), 1, "\x01", &n);
-    if (ret) {
-        goto error;
-    }
-
-    ret = proc_write_mem(srp, (void *)(executable_base + SceRemotePlay_patch2), 2, "\xEB\x1E", &n);
-    if (ret) {
-        goto error;
-    }
 
     error:
     if (entries) {

@@ -142,7 +142,7 @@ PAYLOAD_CODE void resolve_kdlsym()
 	resolve(vmspace_free);
 	resolve(vm_map_lock_read);
 	resolve(vm_map_unlock_read);
-	resolve(vm_map_lookup_entry);
+	//resolve(vm_map_lookup_entry);
 }
 
 PAYLOAD_CODE int my_entrypoint()

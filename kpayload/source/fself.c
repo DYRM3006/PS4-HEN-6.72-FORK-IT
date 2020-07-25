@@ -376,7 +376,7 @@ PAYLOAD_CODE void install_fself_hooks()
 	KCALL_REL32(kernbase, sceSblAuthMgrVerifyHeader_hook2, (uint64_t)my_sceSblAuthMgrVerifyHeader);
 	KCALL_REL32(kernbase, sceSblAuthMgrSmLoadSelfSegment__sceSblServiceMailbox_hook, (uint64_t)my_sceSblAuthMgrSmLoadSelfSegment__sceSblServiceMailbox);
 	KCALL_REL32(kernbase, sceSblAuthMgrSmLoadSelfBlock__sceSblServiceMailbox_hook, (uint64_t)my_sceSblAuthMgrSmLoadSelfBlock__sceSblServiceMailbox);
-	KCALL_REL32(kernbase, sceSblAuthMgrIsLoadable__sceSblACMgrGetPathId_hook, (uint64_t)my_sceSblAuthMgrIsLoadable__sceSblACMgrGetPathId);
+	//KCALL_REL32(kernbase, sceSblAuthMgrIsLoadable__sceSblACMgrGetPathId_hook, (uint64_t)my_sceSblAuthMgrIsLoadable__sceSblACMgrGetPathId);
 
 	intr_restore(flags);
 	writeCr0(cr0);
