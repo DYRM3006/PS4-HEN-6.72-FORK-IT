@@ -408,7 +408,7 @@ PAYLOAD_CODE int remoteplay_patch() {
 }
 
 PAYLOAD_CODE void set_dipsw(int debug_patch) {
-	uint64_t kernbase = getkernbase();
+	/*uint64_t kernbase = getkernbase();
 
 	uint64_t cr0 = readCr0();
 	writeCr0(cr0 & ~X86_CR0_WP);
@@ -421,7 +421,7 @@ PAYLOAD_CODE void set_dipsw(int debug_patch) {
 	dipsw[0x78] = debug_patch ? 0x01 : 0x00;
 
 	intr_restore(flags);
-	writeCr0(cr0);
+	writeCr0(cr0);*/
 }
 
 PAYLOAD_CODE void patch_debug_dipsw()

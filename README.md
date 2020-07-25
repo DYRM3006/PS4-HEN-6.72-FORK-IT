@@ -1,5 +1,7 @@
 # PS4HEN v2.1.4
 
+This is an adaptation of the Vortex HEN for PS4 6.72
+
 ## Features
 - Homebrew Enabler
 - Jailbreak
