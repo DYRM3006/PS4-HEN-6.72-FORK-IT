@@ -3,18 +3,19 @@
 #pragma once
 
 // data
-#define	XFAST_SYSCALL_addr              0x00001C0
-#define M_TEMP_addr                     0x14B4110
-#define MINI_SYSCORE_SELF_BINARY_addr   0x14C9D48
-#define ALLPROC_addr                    0x2382FF8
-#define SBL_DRIVER_MAPPED_PAGES_addr    0x271E208
-#define SBL_PFS_SX_addr                 0x271E5D8
-#define SBL_KEYMGR_KEY_SLOTS_addr       0x2744548
-#define SBL_KEYMGR_KEY_RBTREE_addr      0x2744558
-#define SBL_KEYMGR_BUF_VA_addr          0x2748000
-#define SBL_KEYMGR_BUF_GVA_addr         0x2748800
-#define FPU_CTX_addr                    0x274C040
-#define DIPSW_addr                      0x1CD0650
+#define	XFAST_SYSCALL_addr              0x000001C0
+#define M_TEMP_addr                     0x01540EB0
+#define MINI_SYSCORE_SELF_BINARY_addr   0x0156A588
+#define ALLPROC_addr                    0x022BBE80
+#define SBL_DRIVER_MAPPED_PAGES_addr    0x0266AC68
+#define SBL_PFS_SX_addr                 0x02679040
+#define SBL_KEYMGR_KEY_SLOTS_addr       0x02694570
+#define SBL_KEYMGR_KEY_RBTREE_addr      0x02694580
+#define SBL_KEYMGR_BUF_VA_addr          0x02698000
+#define SBL_KEYMGR_BUF_GVA_addr         0x02698808
+#define FPU_CTX_addr                    0x02694080
+// FIXME: not found an equivalent for 672
+//#define DIPSW_addr                      0x1CD0650
 
 // common
 #define memcmp_addr                     0x050AC0

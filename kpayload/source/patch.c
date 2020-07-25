@@ -426,12 +426,12 @@ PAYLOAD_CODE void set_dipsw(int debug_patch) {
 
 PAYLOAD_CODE void patch_debug_dipsw()
 {
-	set_dipsw(1);
+	//set_dipsw(1); SEE offsets.h:17
 }
 
 PAYLOAD_CODE void restore_retail_dipsw()
 {
-	set_dipsw(0);
+	//set_dipsw(0); SEE offsets.h:17
 }
 
 PAYLOAD_CODE void apply_patches() {
