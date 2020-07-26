@@ -2,9 +2,9 @@
 #define __DEFINES_H__
 #pragma once
 
-#define VERSION "2.1.4"
+#define VERSION "2.1.5"
 
-#define DEBUG_SOCKET
+//#define DEBUG_SOCKET
 
 #define LOG_IP   "192.168.2.191\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
 #define LOG_PORT 9028

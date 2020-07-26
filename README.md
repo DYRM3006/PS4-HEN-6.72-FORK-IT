@@ -1,24 +1,16 @@
-# PS4HEN v2.1.4
+# PS4HEN v2.1.5
 
-This is an adaptation of the Vortex HEN for PS4 6.72
+This is basic adaptation of the Vortex HEN for PS4 6.72
 
 ## Features
 - Homebrew Enabler
 - Jailbreak
 - Sandbox Escape
-- Debug Settings
-- External HDD Support
 - VR Support
 - Remote Package Install
 - Rest Mode Support
-- External HDD Format 7.xx Support
-- FW Version Spoof to 7.02
 - Debug Trophies Support
 - sys_dynlib_dlsym Patch
-- UART Enabler
-- Never Disable Screenshot
-- Remote Play Enabler
-- Save Data Mounting
 
 ## Contributors
 Massive credits to the following:
@@ -33,11 +25,6 @@ Massive credits to the following:
 - [SocraticBliss](https://twitter.com/SocraticBliss)
 - [ChendoChap](https://github.com/ChendoChap)
 - [Biorn1950](https://github.com/Biorn1950)
-- Anonymous
-
-## Testers
-- [SCORPION](https://twitter.com/SCORPION1399)
-- [KiiWii](https://twitter.com/defaultdnb)
-- [Leeful74](https://twitter.com/leeful74)
-- [opoisso893](https://twitter.com/opoisso893)
+- [xXxTheDarkprogramerxXx](https://github.com/xXxTheDarkprogramerxXx)
+- OpenOrbis Team
 - Anonymous
