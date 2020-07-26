@@ -1,6 +1,7 @@
 # PS4HEN v2.1.5
 
 This is basic adaptation of the Vortex HEN for PS4 6.72
+WARNING: This HEN is not fully ported, only the parts necessary for it to work with orbislink are ported.
 
 ## Features
 - Homebrew Enabler
