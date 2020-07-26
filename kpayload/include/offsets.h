@@ -33,7 +33,7 @@
 #define eventhandler_register_addr      0x00402E80
 
 // Fself
-#define sceSblACMgrGetPathId_addr       0x0117E0
+#define sceSblACMgrGetPathId_addr       0x00233C70
 #define sceSblServiceMailbox_addr       0x0064CC20
 #define sceSblAuthMgrSmIsLoadable2_addr 0x0065D7A0
 #define _sceSblAuthMgrGetSelfInfo_addr  0x0065E010
@@ -61,7 +61,7 @@
 #define proc_rwmem_addr                 0x0010EE10
 
 // fself patches
-//#define sceSblAuthMgrIsLoadable__sceSblACMgrGetPathId_hook          0x63E25D
+#define sceSblAuthMgrIsLoadable__sceSblACMgrGetPathId_hook          0x006591BC
 #define sceSblAuthMgrIsLoadable2_hook                               0x0065930F
 #define sceSblAuthMgrVerifyHeader_hook1                             0x00659AC6
 #define sceSblAuthMgrVerifyHeader_hook2                             0x0065A758

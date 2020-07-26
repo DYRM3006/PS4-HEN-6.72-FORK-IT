@@ -105,7 +105,12 @@ int install_payload(struct thread *td, struct install_payload_args* args)
 	//*(uint32_t *)(kernel_base + enable_uart_patch) = 0;
 
 	uint8_t* payload_buffer = (uint8_t*)_mmap(NULL, 0x500000, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
-
+	if (!payload_buffer)
+	{
+		return NULL;
+	}
+	memset(payload_buffer, 0, 0x500000);
+	
 	// install kpayload
 	memset(payload_buffer, 0, PAGE_SIZE);
 	memcpy(payload_buffer, payload_data, payload_size);
