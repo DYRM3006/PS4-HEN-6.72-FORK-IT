@@ -2,7 +2,7 @@
 #define __DEBUG_H__
 #pragma once
 
-int sock;
+extern int sock;
 
 void initDebugSocket(void);
 void closeDebugSocket(void);

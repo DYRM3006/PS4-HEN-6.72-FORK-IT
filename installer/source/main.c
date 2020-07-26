@@ -26,7 +26,9 @@ int install_payload(struct thread *td, struct install_payload_args* args)
 	uint8_t* payload_data = args->payload_info->buffer;
 	size_t payload_size = args->payload_info->size;
 	struct payload_header* payload_header = (struct payload_header*)payload_data;
-	uint8_t* payload_buffer = (uint8_t*)&kernel_base[DT_HASH_SEGMENT_addr];
+
+
+	//uint8_t* payload_buffer = (uint8_t*)&kernel_base[DT_HASH_SEGMENT_addr];
 
 	if (!payload_data || payload_size < sizeof(payload_header) || payload_header->signature != 0x5041594C4F414458ull)
 		return -1;
@@ -94,8 +96,15 @@ int install_payload(struct thread *td, struct install_payload_args* args)
 	kmem[0] = 0x41;
 	kmem[1] = 0x41;
 
+	// Patch sys_mmap
+	kmem = (uint8_t*)&gKernelBase[0x000AB57A];
+	kmem[0] = 0x37; // mov     [rbp+var_61], 33h ; '3'
+	kmem[3] = 0x37; // mov     sil, 33h ; '3'
+
 	// enable uart output
 	//*(uint32_t *)(kernel_base + enable_uart_patch) = 0;
+
+	uint8_t* payload_buffer = (uint8_t*)_mmap(NULL, 0x500000, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
 
 	// install kpayload
 	memset(payload_buffer, 0, PAGE_SIZE);

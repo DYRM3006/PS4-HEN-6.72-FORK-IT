@@ -1,5 +1,4 @@
-#include <ps4.h>
-
+#include "ps4.h"
 #include "defines.h"
 
 #ifdef DEBUG_SOCKET
@@ -23,13 +22,15 @@ void initDebugSocket(void)
 }
 
 void closeDebugSocket(void)
+{
 	sceNetSocketClose(sock);
+}
 
 #endif
 
 void notify(char *message)
 {
 	char buffer[512];
-	sprintf(buffer, "%s", message);
-	sceSysUtilSendSystemNotificationWithText(222, buffer);
+	sprintf(buffer, "%s\n\n\n\n\n\n\n", message);
+	sceSysUtilSendSystemNotificationWithText(0x81, buffer);
 }
