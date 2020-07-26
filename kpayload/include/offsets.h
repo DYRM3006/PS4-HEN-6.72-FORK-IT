@@ -34,11 +34,11 @@
 
 // Fself
 #define sceSblACMgrGetPathId_addr       0x0117E0
-#define sceSblServiceMailbox_addr       0x632540
-#define sceSblAuthMgrSmIsLoadable2_addr 0x63C4F0
-#define _sceSblAuthMgrGetSelfInfo_addr  0x63CD40
-#define _sceSblAuthMgrSmStart_addr      0x6418E0
-#define sceSblAuthMgrVerifyHeader_addr  0x642B40
+#define sceSblServiceMailbox_addr       0x0064CC20
+#define sceSblAuthMgrSmIsLoadable2_addr 0x0065D7A0
+#define _sceSblAuthMgrGetSelfInfo_addr  0x0065E010
+#define _sceSblAuthMgrSmStart_addr      0x0065E490
+#define sceSblAuthMgrVerifyHeader_addr  0x0065D800
 
 // Fpkg
 #define RsaesPkcs1v15Dec2048CRT_addr    0x01D6050
