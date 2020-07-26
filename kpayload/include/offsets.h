@@ -57,6 +57,7 @@
 #define vmspace_free_addr               0x0044C9C0
 #define vm_map_lock_read_addr           0x0044CD40
 #define vm_map_unlock_read_addr         0x0044CD90
+#define vm_map_lookup_entry_addr        0x19F760
 #define proc_rwmem_addr                 0x0010EE10
 
 // fself patches
@@ -88,7 +89,7 @@
 #define nidf_libSceDipsw_patch2         0x254107
 #define nidf_libSceDipsw_patch3         0x835670
 #define nidf_libSceDipsw_patch4         0xA12BC0
- 
+
 //verify keystone patch
 #define verify_keystone_patch			0x7E4DC0
  
