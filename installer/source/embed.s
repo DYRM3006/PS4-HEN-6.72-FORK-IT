@@ -1,8 +1,5 @@
-.intel_syntax noprefix
-.text
-
 	.section .rodata
-	.global kpayload, _mmap
+	.global kpayload
 	.type   kpayload, @object
 	.align  4
 kpayload:
@@ -13,9 +10,3 @@ kpayload_end:
 	.align  4
 kpayload_size:
 	.int    kpayload_end - kpayload
-
-_mmap:
-	mov rax, 477
-	mov r10, rcx
-	syscall
-	ret

@@ -2,21 +2,12 @@
 #define __DEFINES_H__
 #pragma once
 
-#define VERSION "2.1.5"
+#define VERSION "2.1.4"
 
-//#define DEBUG_SOCKET
+#define DEBUG_SOCKET
 
-#define LOG_IP   "192.168.2.191\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
-#define LOG_PORT 9028
-
-/*
- * Mapping type
- */
-#define	MAP_FILE	 0x0000	/* map from file (default) */
-#define	MAP_ANON	 0x1000	/* allocated from memory, swap space */
-#ifndef _KERNEL
-#define	MAP_ANONYMOUS	 MAP_ANON /* For compatibility. */
-#endif /* !_KERNEL */
+#define LOG_IP   "192.168.2.71\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+#define LOG_PORT 9023
 
 #define FAKE_FW_VERSION 0x07020000
 
