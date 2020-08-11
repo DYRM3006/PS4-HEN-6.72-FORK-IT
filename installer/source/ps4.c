@@ -1,5 +1,5 @@
 #include <ps4.h>
-/*
+
 int* (*__error)();
 
 int (*sceKernelLoadStartModule)(const char *name, size_t argc, const void *argv, unsigned int flags, int, int);
@@ -48,4 +48,3 @@ void initSysUtil(void)
 	int sysUtilHandle = sceKernelLoadStartModule("/system/common/lib/libSceSysUtil.sprx", 0, NULL, 0, 0, 0);
 	RESOLVE(sysUtilHandle, sceSysUtilSendSystemNotificationWithText);
 }
-*/

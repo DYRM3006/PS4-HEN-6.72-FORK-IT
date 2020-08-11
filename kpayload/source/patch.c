@@ -20,7 +20,7 @@ extern void (*free)(void* addr, void* type) PAYLOAD_BSS;
 extern void* (*memcpy)(void* dst, const void* src, size_t len) PAYLOAD_BSS;
 extern void* (*memset)(void *s, int c, size_t n) PAYLOAD_BSS;
 extern int (*memcmp)(const void *ptr1, const void *ptr2, size_t num) PAYLOAD_BSS;
-extern void (*eventhandler_register)(void *list, const char *name, void *func, void *arg, int priority) PAYLOAD_BSS;
+extern void (*eventhandler_register)(void *list, const char *name, void *func, void *key, void *arg, int priority) PAYLOAD_BSS; // 5.5x-6.72
 
 extern void* M_TEMP PAYLOAD_BSS;
 extern struct proc** ALLPROC PAYLOAD_BSS;
@@ -174,6 +174,11 @@ PAYLOAD_CODE int shellcore_fpkg_patch(void)
 		nidf_libSceDipsw_patch4,
 	};
 
+	uint32_t ext_hdd_patch_offsets[] = {
+		ext_hdd_patch1,
+		ext_hdd_patch2,
+	};
+
 	uint8_t xor__eax_eax__inc__eax[5] = { 0x31, 0xC0, 0xFF, 0xC0, 0x90 };
 
 	struct proc *ssc = proc_find_by_name("SceShellCore");
@@ -211,8 +216,8 @@ PAYLOAD_CODE int shellcore_fpkg_patch(void)
 	if (ret) 
 		goto error;
 
-	// enable fpkg for patches
-	ret = proc_write_mem(ssc, (void *)(text_seg_base + enable_fpkg_patch), 8, "\xE9\x96\x00\x00\x00\x90\x90\x90", &n);
+	// enable fpkg for patches 6.72
+	ret = proc_write_mem(ssc, (void *)(text_seg_base + enable_fpkg_patch), 8, "\xE9\x98\x00\x00\x00\x90\x90\x90", &n); // 6.72
 	if (ret)
 		goto error;
 
@@ -227,9 +232,11 @@ PAYLOAD_CODE int shellcore_fpkg_patch(void)
 		goto error;
 
 	// enable support with 6.xx external hdd
-	ret = proc_write_mem(ssc, (void *)(text_seg_base + ext_hdd_patch), 1, "\xEB", &n);
-	if (ret)
-		goto error;
+	for (int i = 0; i < COUNT_OF(ext_hdd_patch_offsets); i++) {
+		ret = proc_write_mem(ssc, (void *)(text_seg_base + ext_hdd_patch_offsets[i]), 1, "\xEB", &n);
+		if (ret)
+			goto error;
+	}
 
 	// enable debug trophies on retail
 	ret = proc_write_mem(ssc, (void *)(text_seg_base + debug_trophies_patch), 5, "\x31\xc0\x90\x90\x90", &n);
@@ -244,19 +251,6 @@ PAYLOAD_CODE int shellcore_fpkg_patch(void)
         goto error;
     }
 
-	
-	// enable savedata mounting
-	ret = proc_write_mem(ssc, (void *)(text_seg_base + verify_keystone_patch), 4, "\x48\x31\xC0\xC3", &n);//0x48, 0x31, 0xC0, 0xC3
-	if (ret)
-	{
-		goto error;
-	}
-
-	 ret = proc_write_mem(ssc, (void *)(text_seg_base + save_mount_permision), 3, "\x31\xC0\xC3", &n);//0x48, 0x31, 0xC0, 0xC3
-	 if (ret)
-	 {
-		 goto error;
-	 }
 error:
 	if (entries)
 		dealloc(entries);
@@ -277,10 +271,10 @@ PAYLOAD_CODE int shellui_patch(void)
 
 	int ret = 0;
 
-	/*uint32_t ofs_to_ret_1[] = {
+	uint32_t ofs_to_ret_1[] = {
 		sceSblRcMgrIsAllowDebugMenuForSettings_patch,
 		sceSblRcMgrIsStoreMode_patch,
-	};*/
+	};
 
 	uint8_t mov__eax_1__ret[6] = { 0xB8, 0x01, 0x00, 0x00, 0x00, 0xC3 };
 
@@ -308,7 +302,7 @@ PAYLOAD_CODE int shellui_patch(void)
     }
 
     // disable CreateUserForIDU
-/*    ret = proc_write_mem(ssui, (void *)(executable_base  + CreateUserForIDU_patch), 4, "\x48\x31\xC0\xC3", &n);
+    ret = proc_write_mem(ssui, (void *)(executable_base  + CreateUserForIDU_patch), 4, "\x48\x31\xC0\xC3", &n);
     if (ret) {
         goto error;
     }
@@ -325,8 +319,8 @@ PAYLOAD_CODE int shellui_patch(void)
         goto error;
     }
 
-    // enable remote play menu - credits to Aida
-    ret = proc_write_mem(ssui, (void *)(app_base  + remote_play_menu_patch), 5, "\xE9\x82\x02\x00\x00", &n);
+    // enable remote play menu - credits to Aida 6.72
+	ret = proc_write_mem(ssui, (void *)(app_base  + remote_play_menu_patch), 5, "\xE9\xBA\x02\x00\x00", &n); // 6.72
 
     for (int i = 0; i < num_entries; i++) {
         if (!memcmp(entries[i].name, "libkernel_sys.sprx", 18) && (entries[i].prot >= (PROT_READ | PROT_EXEC))) {
@@ -338,14 +332,14 @@ PAYLOAD_CODE int shellui_patch(void)
     if (!libkernel_sys_base) {
         ret = -1;
         goto error;
-    }*/
+    }
 
     // enable debug settings menu
-/*    for (int i = 0; i < COUNT_OF(ofs_to_ret_1); i++) {
+    for (int i = 0; i < COUNT_OF(ofs_to_ret_1); i++) {
         ret = proc_write_mem(ssui, (void *)(libkernel_sys_base + ofs_to_ret_1[i]), sizeof(mov__eax_1__ret), mov__eax_1__ret, &n);
         if (ret)
             goto error;
-    }*/
+    }
 
 error:
     if (entries)
@@ -389,7 +383,7 @@ PAYLOAD_CODE int remoteplay_patch() {
     }
 
     // patch SceRemotePlay process
-/*    ret = proc_write_mem(srp, (void *)(executable_base + SceRemotePlay_patch1), 1, "\x01", &n);
+    ret = proc_write_mem(srp, (void *)(executable_base + SceRemotePlay_patch1), 1, "\x01", &n);
     if (ret) {
         goto error;
     }
@@ -397,7 +391,7 @@ PAYLOAD_CODE int remoteplay_patch() {
     ret = proc_write_mem(srp, (void *)(executable_base + SceRemotePlay_patch2), 2, "\xEB\x1E", &n);
     if (ret) {
         goto error;
-    }*/
+    }
 
     error:
     if (entries) {
@@ -408,7 +402,7 @@ PAYLOAD_CODE int remoteplay_patch() {
 }
 
 PAYLOAD_CODE void set_dipsw(int debug_patch) {
-	/*uint64_t kernbase = getkernbase();
+	uint64_t kernbase = getkernbase();
 
 	uint64_t cr0 = readCr0();
 	writeCr0(cr0 & ~X86_CR0_WP);
@@ -421,7 +415,7 @@ PAYLOAD_CODE void set_dipsw(int debug_patch) {
 	dipsw[0x78] = debug_patch ? 0x01 : 0x00;
 
 	intr_restore(flags);
-	writeCr0(cr0);*/
+	writeCr0(cr0);
 }
 
 PAYLOAD_CODE void patch_debug_dipsw()
@@ -442,6 +436,6 @@ PAYLOAD_CODE void apply_patches() {
 PAYLOAD_CODE void install_patches()
 {
 	apply_patches();
-	eventhandler_register(NULL, "system_suspend_phase3", &restore_retail_dipsw, NULL, EVENTHANDLER_PRI_PRE_FIRST);
-	eventhandler_register(NULL, "system_resume_phase4", &apply_patches, NULL, EVENTHANDLER_PRI_LAST);
+	eventhandler_register(NULL, "system_suspend_phase3", &restore_retail_dipsw, "hen_suspend_patches", NULL, EVENTHANDLER_PRI_PRE_FIRST); // 5.5x-6.72
+	eventhandler_register(NULL, "system_resume_phase4", &apply_patches, "hen_resume_patches", NULL, EVENTHANDLER_PRI_LAST); // 5.5x-6.72
 }
